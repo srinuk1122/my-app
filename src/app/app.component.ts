@@ -31,7 +31,7 @@ export class AppComponent {
   defaultColDef:ColDef={
     floatingFilter:true,
     flex: 1,
-    // filter: true,
+    filter: true,
     sortable: true,
     resizable: true , 
     editable: true
