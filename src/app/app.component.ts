@@ -8,6 +8,8 @@ import { AgGridModule } from 'ag-grid-angular';
   imports: [AgGridModule], 
   template: `
     <h1>AG Grid Example</h1>
+    <button (click)="saveOrUpdateData()">Save & Update</button>
+    <button (click)="toggleColumns()">Toggle Columns</button>
     <ag-grid-angular
       class="ag-theme-quartz"
       [rowData]="rowData"
@@ -16,7 +18,8 @@ import { AgGridModule } from 'ag-grid-angular';
       [modules]="modules" 
 
       style="height: 500px; width: 100%;"
-      rowSelection="multiple" />
+      rowSelection="multiple" 
+      />
     
   `,
   styleUrls: ['./app.component.css']
@@ -26,10 +29,12 @@ export class AppComponent {
   modules = [ClientSideRowModelModule];
 
   defaultColDef:ColDef={
+    floatingFilter:true,
     flex: 1,
     // filter: true,
-    sortable: true, // Ensures sorting works properly
-    resizable: true  // Allows resizing columns
+    sortable: true,
+    resizable: true , 
+    editable: true
   }
  
   rowData = [
@@ -40,14 +45,24 @@ export class AppComponent {
   ];
   
   colDefs: ColDef[] = [
-    { field: 'id', headerName: 'ID',filter: 'agNumberColumnFilter' },
-    { field: 'ruleName', headerName: 'Rule Name' , filter: 'agTextColumnFilter'},
+    { field: 'id', headerName: 'ID'},
+    { field: 'ruleName', headerName: 'Rule Name' },
     { field: 'active', headerName: 'Active'},
     { field: 'type', headerName: 'Type' },
     { field: 'subType', headerName: 'Sub Type'},
     { field: 'impacted', headerName: 'Impacted'},
     { field: 'scheduled', headerName: 'Scheduled' },
     { field: 'lastScheduledDate', headerName: 'Last Scheduled Date'},
-    { field: 'alert', headerName: 'Alert'}
+    { field: 'alert', headerName: 'Send Alert', hide: false }
   ];
+
+  saveOrUpdateData() {
+    console.log('Saved/Updated Data:', this.rowData);
+    alert("updated")
+  }
+
+  toggleColumns() {
+    this.colDefs = this.colDefs.map(col => col.field === 'alert' ? { ...col, hide: !col.hide } : col);
+  }
+
 }
